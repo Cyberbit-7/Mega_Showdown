@@ -151,7 +151,7 @@
       "baseExperienceYield": 563,
       "evolutions": [],
       "battleOnly": true,
-      "cannotDynamax": true
+      "cannotDynamax": false
     }
   ]
 }
