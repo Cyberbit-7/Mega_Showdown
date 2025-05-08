@@ -22,6 +22,7 @@
   ],
   "client": [
     "UI.SummaryMixin",
+    "UI.PokemonInfoWidgetMixin",
     "UI.StatWidgetMixin"
   ],
   "injectors": {

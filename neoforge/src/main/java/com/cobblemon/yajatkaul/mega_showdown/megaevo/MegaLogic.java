@@ -44,7 +44,7 @@ public class MegaLogic {
         long currentTime = System.currentTimeMillis();
 
         if (cooldowns.containsKey(playerId) && currentTime < cooldowns.get(playerId) && !fromBattle) {
-            player.displayClientMessage(Component.translatable("message.mega_showdown.not_so_fast")
+            player.displayClientMessage(Component.literal("Not so fast!")
                     .withColor(0xFF0000), true);
             return false;
         }
@@ -107,7 +107,7 @@ public class MegaLogic {
                 return;
             }
 
-            if(!Config.mega || pk.getPokemon().getOwnerPlayer() != player || !Utils.MEGA_POKEMONS.contains(pk.getPokemon().getSpecies().getName()) || !Possible(player, false)){
+            if(pk.getPokemon().getOwnerPlayer() != player || !Possible(player, false)){
                 return;
             }
 
@@ -125,18 +125,18 @@ public class MegaLogic {
         }
 
         Pokemon pokemon = context.getPokemon();
-        String species = Utils.MEGA_STONE_IDS.get(pokemon.heldItem().getItem());
+        Species species = Utils.MEGA_STONE_IDS.get(pokemon.heldItem().getItem());
 
         if(context instanceof PokemonEntity pk && (pk.isBattling() && !fromBattle)){
-            player.displayClientMessage(Component.translatable("message.mega_showdown.battle_not_allowed")
+            player.displayClientMessage(Component.literal("Not allowed in battle")
                     .withColor(0xFF0000), true);
             return;
         }
 
-        if(pokemon.getSpecies().getName().equals("Rayquaza") &&
+        if(pokemon.getSpecies().getName().equals(Utils.getSpecies("rayquaza").getName()) &&
                 (!player.getData(DataManage.MEGA_DATA) || Config.multipleMegas)){
             if(Config.friendshipMode && pokemon.getFriendship() < 200 && !pokemon.getEntity().isBattling()){
-                player.displayClientMessage(Component.translatable("message.mega_showdown.bond_not_close_mega")
+                player.displayClientMessage(Component.literal("You are not close enough with your pokemon to mega outside")
                         .withColor(0xFF0000), true);
                 return;
             }
@@ -155,31 +155,31 @@ public class MegaLogic {
                 }
             }
             if(!found){
-                player.displayClientMessage(Component.translatable("message.mega_showdown.rayquaza_no_dragonascent")
+                player.displayClientMessage(Component.literal("Rayquaza doesn't have dragonascent")
                         .withColor(0xFF0000), true);
             }
             return;
-        }else if(pokemon.getSpecies().getName().equals("Rayquaza") && player.getData(DataManage.MEGA_DATA)){
-            player.displayClientMessage(Component.translatable("message.mega_showdown.mega_limit")
+        }else if(pokemon.getSpecies().getName().equals(Utils.getSpecies("rayquaza").getName()) && player.getData(DataManage.MEGA_DATA)){
+            player.displayClientMessage(Component.literal("You can only have one mega at a time")
                     .withColor(0xFF0000), true);
             return;
         }
 
         if(species == null){
-            player.displayClientMessage(Component.translatable( "message.mega_showdown.incorrect_mega_stone")
+            player.displayClientMessage(Component.literal("Don't have the correct stone")
                     .withColor(0xFF0000), true);
             return;
         }
 
         if(Config.friendshipMode && pokemon.getFriendship() < 200 && !pokemon.getEntity().isBattling()){
-            player.displayClientMessage(Component.translatable("message.mega_showdown.bond_not_close_mega")
+            player.displayClientMessage(Component.literal("You are not close enough with your pokemon to mega outside")
                     .withColor(0xFF0000), true);
             return;
         }
 
-        if(species.equals(pokemon.getSpecies().getName()) &&
+        if(species.getName().equals(pokemon.getSpecies().getName()) &&
                 (!player.getData(DataManage.MEGA_DATA) || Config.multipleMegas)){
-            if(species.equals("Charizard")){
+            if(species.getName().equals(Utils.getSpecies("charizard").getName())){
                 if(pokemon.heldItem().is(MegaStones.CHARIZARDITE_X)){
                     player.setData(DataManage.MEGA_DATA, true);
                     player.setData(DataManage.MEGA_POKEMON, new PokeHandler(pokemon));
@@ -200,7 +200,7 @@ public class MegaLogic {
 
                 }
             }
-            else if(species.equals("Mewtwo")){
+            else if(species.getName().equals(Utils.getSpecies("mewtwo").getName())){
                 if(pokemon.heldItem().is(MegaStones.MEWTWONITE_X)){
                     player.setData(DataManage.MEGA_DATA, true);
                     player.setData(DataManage.MEGA_POKEMON, new PokeHandler(pokemon));
@@ -230,11 +230,11 @@ public class MegaLogic {
 
                 playEvolveAnimation(context);
             }
-        }else if(species.equals(pokemon.getSpecies().getName()) && player.getData(DataManage.MEGA_DATA)){
-            player.displayClientMessage(Component.translatable("message.mega_showdown.mega_limit")
+        }else if(species.getName().equals(pokemon.getSpecies().getName()) && player.getData(DataManage.MEGA_DATA)){
+            player.displayClientMessage(Component.literal("You can only have one mega at a time")
                     .withColor(0xFF0000), true);
         }else{
-            player.displayClientMessage(Component.translatable( "message.mega_showdown.incorrect_mega_stone")
+            player.displayClientMessage(Component.literal("Don't have the correct stone")
                     .withColor(0xFF0000), true);
         }
 
@@ -249,7 +249,7 @@ public class MegaLogic {
             }
 
             if(pk.getEntity() != null && pk.getEntity().isBattling() && !fromBattle){
-                player.displayClientMessage(Component.translatable("message.mega_showdown.battle_not_allowed")
+                player.displayClientMessage(Component.literal("Not allowed in battle")
                         .withColor(0xFF0000), true);
                 return;
             }

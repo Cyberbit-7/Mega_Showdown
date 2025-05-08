@@ -66,7 +66,7 @@ public class N_Lunarizer extends Item {
 
         if (currentValue != null && pokemon.getSpecies().getName().equals("Necrozma")) {
             if (checkFused(pokemon)){
-                player.displayClientMessage(Component.translatable("message.mega_showdown.already_fused")
+                player.displayClientMessage(Component.literal("Already fused!")
                         .withColor(0xFF0000), true);
                 return InteractionResult.PASS;
             }

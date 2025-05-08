@@ -57,7 +57,7 @@ public class MegaShowdown implements ModInitializer {
         ResourceManagerHelper.registerBuiltinResourcePack(
                 Identifier.of(MOD_ID, "gyaradosjumpingmega"),
                 FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(),
-                Text.translatable("message.mega_showdown.gyrados_jump_mega"),
+                Text.literal("Gyrados Jumping Mega"),
                 ResourcePackActivationType.NORMAL
         );
     }

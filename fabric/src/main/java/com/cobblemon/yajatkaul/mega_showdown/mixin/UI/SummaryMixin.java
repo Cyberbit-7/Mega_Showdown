@@ -39,7 +39,7 @@ public abstract class SummaryMixin {
                 SCALE
         );
 
-        if(pokemon.getGmaxFactor()){
+        if(pokemon.getSpecies().canGmax()){
             gimmikInfo(
                     matrices,
                     Identifier.of(MegaShowdown.MOD_ID, "textures/gui/summary/gmax.png"),

@@ -22,7 +22,7 @@ public class PackRegister {
             // Create PackLocationInfo
             PackLocationInfo packInfo = new PackLocationInfo(
                     "gyaradosjumpingmega",           // Internal ID
-                    Component.translatable("message.mega_showdown.gyrados_jump_mega"), // Display name
+                    Component.literal("Gyrados Jumping Mega"), // Display name
                     PackSource.BUILT_IN,              // Source
                     java.util.Optional.empty()       // No explicit format
             );

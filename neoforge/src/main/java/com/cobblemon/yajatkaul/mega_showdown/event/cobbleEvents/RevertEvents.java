@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.api.storage.player.GeneralPlayerData;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.yajatkaul.mega_showdown.Config;
-import com.cobblemon.yajatkaul.mega_showdown.MegaShowdown;
 import com.cobblemon.yajatkaul.mega_showdown.block.ModBlocks;
 import com.cobblemon.yajatkaul.mega_showdown.datamanage.DataManage;
 import com.cobblemon.yajatkaul.mega_showdown.item.TeraMoves;
@@ -125,11 +124,13 @@ public class RevertEvents {
             PlayerPartyStore playerPartyStore = Cobblemon.INSTANCE.getStorage().getParty(player);
             checkKeldeo(playerPartyStore);
 
-            for (Pokemon pokemon : playerPartyStore) {
-                EventUtils.revertFormesEnd(pokemon);
+            if(Config.battleMode){
+                for (Pokemon pokemon : playerPartyStore) {
+                    EventUtils.revertFormesEnd(pokemon);
 
-                if(pokemon.getAspects().contains("mega_x") || pokemon.getAspects().contains("mega_y") || pokemon.getAspects().contains("mega")){
-                    MegaLogic.Devolve(pokemon, true);
+                    if(pokemon.getAspects().contains("mega_x") || pokemon.getAspects().contains("mega_y") || pokemon.getAspects().contains("mega")){
+                        MegaLogic.Devolve(pokemon, true);
+                    }
                 }
             }
 
@@ -173,7 +174,7 @@ public class RevertEvents {
                 data.getKeyItems().remove(ResourceLocation.fromNamespaceAndPath("cobblemon","tera_orb"));
             }
 
-            if(Config.mega &&
+            if((Config.battleMode || Config.scuffedMode || Config.battleModeOnly) &&
                     MegaLogic.Possible(player, true) && !player.getData(DataManage.MEGA_DATA)){
                 data.getKeyItems().add(ResourceLocation.fromNamespaceAndPath("cobblemon","key_stone"));
             }else{

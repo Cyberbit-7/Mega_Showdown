@@ -36,7 +36,7 @@ public class MegaCommands {
         player.removeAttached(DataManage.MEGA_POKEMON);
         player.removeAttached(DataManage.PRIMAL_DATA);
         player.removeAttached(DataManage.PRIMAL_POKEMON);
-        player.sendMessage(Text.translatable("message.mega_showdown.reset_completed"));
+        player.sendMessage(Text.literal("Reset completed!"));
         return 1;
     }
 
@@ -67,7 +67,8 @@ public class MegaCommands {
             }
         }
 
-        player.sendMessage(Text.translatable("message.mega_showdown.reset_completed"));
+        // Send success message to the command source
+        player.sendMessage(Text.literal("Reset completed!"));
         return 1;
     }
 }
