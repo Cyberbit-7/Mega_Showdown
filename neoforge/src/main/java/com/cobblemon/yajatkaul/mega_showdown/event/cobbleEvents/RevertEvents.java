@@ -122,10 +122,6 @@ public class RevertEvents {
                 EventUtils.revertFormesEnd(pokemon);
             }
 
-            if (Config.revertMegas && !Config.multipleMegas) {
-                player.getServer().getCommands().performPrefixedCommand(player.createCommandSourceStack(), "/msdresetmega");
-            }
-
             GeneralPlayerData data = Cobblemon.INSTANCE.getPlayerDataManager().getGenericData(player);
 
             boolean hasDMAXItemCurios = CuriosApi.getCuriosInventory(player)

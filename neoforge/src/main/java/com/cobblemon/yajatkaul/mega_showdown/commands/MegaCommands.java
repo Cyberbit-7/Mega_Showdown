@@ -93,6 +93,8 @@ public class MegaCommands {
             }
         }
 
+        // Send success message to the command source
+        player.sendSystemMessage(Component.translatable("message.mega_showdown.reset_completed"));
         return 1;
     }
 }

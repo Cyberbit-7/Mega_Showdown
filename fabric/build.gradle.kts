@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.yajatkaul"
-version = "9.6.0-release-beta-fabric"
+version = "9.5.5-release-fabric"
 
 architectury {
     platformSetupLoomIde()
@@ -54,7 +54,6 @@ dependencies {
     modImplementation(fabricApi.module("fabric-command-api-v2", "0.115.6+1.21.1"))
 
     modImplementation("net.fabricmc:fabric-language-kotlin:1.12.3+kotlin.2.0.21")
-
     modImplementation("com.cobblemon:fabric:1.6.1+1.21.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")

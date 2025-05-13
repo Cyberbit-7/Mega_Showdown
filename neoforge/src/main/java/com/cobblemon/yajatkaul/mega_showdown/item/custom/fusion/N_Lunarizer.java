@@ -55,7 +55,7 @@ public class N_Lunarizer extends Item {
         }
 
         PlayerPartyStore playerPartyStore = Cobblemon.INSTANCE.getStorage().getParty((ServerPlayer) player);
-        PokeHandler refValue = arg.getOrDefault(DataManage.POKEMON_STORAGE, null);
+        PokeHandler refValue = arg.getOrDefault(DataManage.N_LUNAR, null);
         Pokemon currentValue;
 
         if(refValue == null){
@@ -76,14 +76,14 @@ public class N_Lunarizer extends Item {
             player.setData(DataManage.DATA_MAP, map);
 
             pk.setData(DataManage.N_LUNAR_POKEMON, new PokeHandler(currentValue));
-            arg.set(DataManage.POKEMON_STORAGE, null);
+            arg.set(DataManage.N_LUNAR, null);
             new FlagSpeciesFeature("dawn-fusion", true).apply(pokemon);
             particleEffect(pokemon.getEntity());
             setTradable(pokemon, false);
 
             arg.set(DataComponents.CUSTOM_NAME, Component.translatable("item.mega_showdown.n_lunarizer.inactive"));
         } else if (currentValue == null && pokemon.getSpecies().getName().equals("Lunala")) {
-            arg.set(DataManage.POKEMON_STORAGE, new PokeHandler(pokemon));
+            arg.set(DataManage.N_LUNAR, new PokeHandler(pokemon));
             playerPartyStore.remove(pokemon);
             arg.set(DataComponents.CUSTOM_NAME, Component.translatable("item.mega_showdown.n_lunarizer.charged"));
         } else if (pokemon.getSpecies().getName().equals("Necrozma") && checkEnabled(pokemon)) {
@@ -123,17 +123,45 @@ public class N_Lunarizer extends Item {
     }
 
     private boolean checkEnabled(Pokemon pokemon){
-        return pokemon.getAspects().contains("dawn-fusion");
+        FlagSpeciesFeatureProvider featureProvider = new FlagSpeciesFeatureProvider(List.of("dawn-fusion"));
+        FlagSpeciesFeature feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            return featureProvider.get(pokemon).getEnabled();
+        }
+        return false;
     }
 
     private boolean checkFused(Pokemon pokemon){
-        return pokemon.getAspects().contains("dusk-fusion") || pokemon.getAspects().contains("dawn-fusion");
+        FlagSpeciesFeatureProvider featureProvider = new FlagSpeciesFeatureProvider(List.of("dusk-fusion"));
+        FlagSpeciesFeature feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            boolean enabled = featureProvider.get(pokemon).getEnabled();
+
+            if(enabled){
+                return true;
+            }
+        }
+
+        featureProvider = new FlagSpeciesFeatureProvider(List.of("dawn-fusion"));
+        feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            boolean enabled = featureProvider.get(pokemon).getEnabled();
+
+            if(enabled){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public void onDestroyed(ItemEntity entity, DamageSource damageSource) {
         if(entity.getOwner() instanceof ServerPlayer player){
-            PokeHandler refValue = entity.getItem().getOrDefault(DataManage.POKEMON_STORAGE, null);
+            PokeHandler refValue = entity.getItem().getOrDefault(DataManage.N_LUNAR, null);
             Pokemon currentValue;
 
             if(refValue == null){
@@ -146,7 +174,7 @@ public class N_Lunarizer extends Item {
 
             if(currentValue != null){
                 playerPartyStore.add(currentValue);
-                entity.getItem().set(DataManage.POKEMON_STORAGE, null);
+                entity.getItem().set(DataManage.N_LUNAR, null);
             }
         }
 

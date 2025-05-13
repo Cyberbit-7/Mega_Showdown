@@ -54,7 +54,7 @@ public class N_Solarizer extends Item {
         }
 
         PlayerPartyStore playerPartyStore = Cobblemon.INSTANCE.getStorage().getParty((ServerPlayerEntity) player);
-        Pokemon currentValue = arg.getOrDefault(DataManage.POKEMON_STORAGE, null);
+        Pokemon currentValue = arg.getOrDefault(DataManage.N_SOLAR, null);
 
         if (currentValue != null && pokemon.getSpecies().getName().equals("Necrozma")) {
             if (checkFused(pokemon)){
@@ -73,14 +73,14 @@ public class N_Solarizer extends Item {
             player.setAttached(DataManage.DATA_MAP, map);
 
             pk.setAttached(DataManage.N_SOLAR_POKEMON, new PokeHandler(currentValue));
-            arg.set(DataManage.POKEMON_STORAGE, null);
+            arg.set(DataManage.N_SOLAR, null);
             new FlagSpeciesFeature("dusk-fusion", true).apply(pokemon);
             particleEffect(pokemon.getEntity());
             setTradable(pokemon, false);
 
             arg.set(DataComponentTypes.CUSTOM_NAME, Text.translatable("item.mega_showdown.n_solarizer.inactive"));
         } else if (currentValue == null && pokemon.getSpecies().getName().equals("Solgaleo")) {
-            arg.set(DataManage.POKEMON_STORAGE, pokemon);
+            arg.set(DataManage.N_SOLAR, pokemon);
             playerPartyStore.remove(pokemon);
             arg.set(DataComponentTypes.CUSTOM_NAME, Text.translatable("item.mega_showdown.n_solarizer.charged"));
         } else if (pokemon.getSpecies().getName().equals("Necrozma") && checkEnabled(pokemon)) {
@@ -119,22 +119,50 @@ public class N_Solarizer extends Item {
     }
 
     private boolean checkEnabled(Pokemon pokemon){
-        return pokemon.getAspects().contains("dusk-fusion");
+        FlagSpeciesFeatureProvider featureProvider = new FlagSpeciesFeatureProvider(List.of("dusk-fusion"));
+        FlagSpeciesFeature feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            return featureProvider.get(pokemon).getEnabled();
+        }
+        return false;
     }
 
     private boolean checkFused(Pokemon pokemon){
-        return pokemon.getAspects().contains("dusk-fusion") || pokemon.getAspects().contains("dawn-fusion");
+        FlagSpeciesFeatureProvider featureProvider = new FlagSpeciesFeatureProvider(List.of("dusk-fusion"));
+        FlagSpeciesFeature feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            boolean enabled = featureProvider.get(pokemon).getEnabled();
+
+            if(enabled){
+                return true;
+            }
+        }
+
+        featureProvider = new FlagSpeciesFeatureProvider(List.of("dawn-fusion"));
+        feature = featureProvider.get(pokemon);
+
+        if(feature != null){
+            boolean enabled = featureProvider.get(pokemon).getEnabled();
+
+            if(enabled){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public void onItemEntityDestroyed(ItemEntity entity) {
         if(entity.getOwner() instanceof ServerPlayerEntity player){
             PlayerPartyStore playerPartyStore = Cobblemon.INSTANCE.getStorage().getParty(player);
-            Pokemon currentValue = entity.getStack().getOrDefault(DataManage.POKEMON_STORAGE, null);
+            Pokemon currentValue = entity.getStack().getOrDefault(DataManage.N_SOLAR, null);
 
             if(currentValue != null){
                 playerPartyStore.add(currentValue);
-                entity.getStack().set(DataManage.POKEMON_STORAGE, null);
+                entity.getStack().set(DataManage.N_SOLAR, null);
             }
         }
 

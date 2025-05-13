@@ -42,10 +42,6 @@ public class RevertEvents {
                 EventUtils.revertFormesEnd(pokemon);
             }
 
-            if (ShowdownConfig.revertMegas.get() && !ShowdownConfig.multipleMegas.get()) {
-                player.getServer().getCommandManager().executeWithPrefix(player.getCommandSource(), "/msdresetmega");
-            }
-
             GeneralPlayerData data = Cobblemon.INSTANCE.getPlayerDataManager().getGenericData(player);
 
             boolean hasDMaxItemTrinkets = TrinketsApi.getTrinketComponent(player).map(trinkets ->

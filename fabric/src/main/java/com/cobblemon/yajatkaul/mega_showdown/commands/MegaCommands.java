@@ -93,6 +93,7 @@ public class MegaCommands {
             }
         }
 
+        player.sendMessage(Text.translatable("message.mega_showdown.reset_completed"));
         return 1;
     }
 }
