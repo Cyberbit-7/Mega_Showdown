@@ -33,7 +33,7 @@
   "catchRate": 255,
   "eggCycles": 120,
   "baseFriendship": 0,
-  "dynamaxBlocked": true,
+  "dynamaxBlocked": false,
   "baseScale": 1,
   "hitbox": {
     "width": 1,
@@ -151,7 +151,7 @@
       "baseExperienceYield": 563,
       "evolutions": [],
       "battleOnly": true,
-      "cannotDynamax": true
+      "cannotDynamax": false
     }
   ]
 }
